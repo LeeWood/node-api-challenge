@@ -21,7 +21,7 @@ router.get('/', (req, res) => { //all projects
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => { //id specific project
   res.status(200).json({
     success: true,
     proj: req.project 
@@ -29,13 +29,30 @@ router.get('/:id', (req, res) => {
 });
 
 //POST REQUESTS
+router.post('/', validateProj, (req, res) => {
+  db.insert(req.body)
+    .then(proj => {
+      res.status(201).json({
+        success: true,
+        proj
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        success: false,
+        message: "THere was a problem creating project.",
+        error: err
+      });
+    });
+});
 
 //PUT REQUESTS
+
 
 //DELETE REQUESTS
 
 //CUSTOM MIDDLEWARE
-function validateProjId(req, res, next) {
+function validateProjId(req, res, next) { //project must have valid existing id
 
   const { id } = req.params;
   db.get(id)
@@ -50,4 +67,24 @@ function validateProjId(req, res, next) {
       }
     });
 }
+
+function validateProj(req, res, next) { //project must have proper key/value pairs in body
+  const data = req.body;
+  if(!data) {
+    res.status(400).json({
+      message: "Missing project data"
+    });
+  } else if(!data.name) {
+    res.status(400).json({
+      message: "Please include project name"
+    });
+  } else if(!data.description) {
+    res.status(400).json({
+      message: "Please include project description."
+    });
+  } else {
+    next();
+  }
+}
+
 module.exports = router;
