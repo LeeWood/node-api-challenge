@@ -138,7 +138,7 @@ function validateProjId(req, res, next) { //project must have valid existing id
 
 function validateProj(req, res, next) { //project must have proper key/value pairs in body
   const data = req.body;
-  if(!data) {
+  if(!data.name && !data.description) {
     res.status(400).json({
       message: "Missing project data"
     });
