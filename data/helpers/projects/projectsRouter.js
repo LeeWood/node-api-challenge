@@ -28,6 +28,25 @@ router.get('/:id', validateProjId, (req, res) => { //read id specific project
   });
 });
 
+router.get('/:id/actions', validateProjId, (req, res) => { //read id specific project actions
+
+  const id = req.params.id;
+
+  db.getProjectActions(id)
+    .then(actions => {
+      res.status(200).json({
+        success: true,
+        actions 
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        success: false,
+        message: "There was a problem retrieving project actions."
+      });
+    });
+});
+
 //POST REQUESTS
 router.post('/', validateProj, (req, res) => { //create new prpject
   db.insert(req.body)
