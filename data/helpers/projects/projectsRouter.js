@@ -22,6 +22,7 @@ router.get('/', (req, res) => { //read all projects
 });
 
 router.get('/:id', validateProjId, (req, res) => { //read id specific project
+
   res.status(200).json({
     success: true,
     proj: req.project 
@@ -30,7 +31,7 @@ router.get('/:id', validateProjId, (req, res) => { //read id specific project
 
 router.get('/:id/actions', validateProjId, (req, res) => { //read id specific project actions
 
-  const id = req.params.id;
+  const { id } = req.params;
 
   db.getProjectActions(id)
     .then(actions => {
@@ -68,7 +69,7 @@ router.post('/', validateProj, (req, res) => { //create new prpject
 //PUT REQUESTS
 router.put('/:id', validateProjId, validateProjShort, (req, res) => { //update existing project
   
-  const id = req.params.id;
+  const { id } = req.params;
   const edits = req.body;
 
   db.update(id, edits)
@@ -91,7 +92,7 @@ router.put('/:id', validateProjId, validateProjShort, (req, res) => { //update e
 //DELETE REQUESTS
 router.delete('/:id', validateProjId, (req, res) => { //delete existing project
 
-  const id = req.params.id;
+  const { id } = req.params;
 
   db.remove(id)
     .then(proj => {
@@ -112,7 +113,8 @@ router.delete('/:id', validateProjId, (req, res) => { //delete existing project
 //CUSTOM MIDDLEWARE
 function validateProjId(req, res, next) { //project must have valid existing id
 
-  const { id } = req.params;
+  const { id } = req.params; 
+  
   db.get(id)
     .then(project => {
       if(project) {
