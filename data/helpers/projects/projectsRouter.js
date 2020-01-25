@@ -21,7 +21,7 @@ router.get('/', (req, res) => { //read all projects
     });
 });
 
-router.get('/:id', (req, res) => { //read id specific project
+router.get('/:id', validateProjId, (req, res) => { //read id specific project
   res.status(200).json({
     success: true,
     proj: req.project 
@@ -78,8 +78,7 @@ router.delete('/:id', validateProjId, (req, res) => { //delete existing project
     .then(proj => {
       res.status(200).json({
         success: true,
-        message: "Project was successfully deleted",
-        proj
+        message: "Project was successfully deleted"
       });
     })
     .catch(err => {
