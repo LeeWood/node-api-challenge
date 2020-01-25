@@ -3,7 +3,7 @@ const db = require('./projectModel.js');
 const router = express.Router();
 
 //GET REQUESTS
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { //all projects
 
   db.get()
     .then(projs => {
@@ -21,6 +21,13 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+  res.status(200).json({
+    success: true,
+    proj: req.project 
+  });
+});
+
 //POST REQUESTS
 
 //PUT REQUESTS
@@ -28,5 +35,19 @@ router.get('/', (req, res) => {
 //DELETE REQUESTS
 
 //CUSTOM MIDDLEWARE
+function validateProjId(req, res, next) {
 
+  const { id } = req.params;
+  db.get(id)
+    .then(project => {
+      if(project) {
+        req.project = project;
+        next();
+      } else {
+        res.status(404).json({
+          message: "The project with this ID could not be found."
+        });
+      }
+    });
+}
 module.exports = router;
