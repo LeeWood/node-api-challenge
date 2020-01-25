@@ -4,7 +4,7 @@ const projDb = require('../projects/projectModel.js');
 const router = express.Router();
 
 //GET REQUESTS
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { //list all actions from all projects
 
   db.get()
     .then(acts => {
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', validateActId, (req, res) => {
+router.get('/:id', validateActId, (req, res) => { //get specific action, by action id
 
   const { id } = req.params;
 
@@ -42,7 +42,7 @@ router.get('/:id', validateActId, (req, res) => {
 });
 
 //POST REQUESTS
-router.post('/:proj_id', validateProjId, validateAction, (req, res) => {
+router.post('/:proj_id', validateProjId, validateAction, characterCount, (req, res) => {
   
   const { proj_id } = req.params;
 
@@ -63,7 +63,7 @@ router.post('/:proj_id', validateProjId, validateAction, (req, res) => {
 });
 
 //PUT REQUESTS
-router.put('/:id', validateActId, validateActShort, (req, res) => {
+router.put('/:id', validateActId, validateActShort, characterCount, (req, res) => {
 
   const { id } = req.params;
   const edits = req.body;
@@ -176,6 +176,20 @@ function validateActShort(req, res, next) { //updating actions must have at leas
       success: false,
       message: "Please include action data."
     });
+  }
+}
+
+function characterCount(req, res, next) { //character count for action description
+  
+  const description = req.body.description;
+  
+  if(description.length > 128) {
+    res.status(400).json({
+      success: false,
+      message: "Please limit descriptions to 128 characters."
+    });
+  } else {
+    next();
   }
 }
 
