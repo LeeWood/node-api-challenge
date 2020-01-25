@@ -35,10 +35,18 @@ router.get('/:id/actions', validateProjId, (req, res) => { //read id specific pr
 
   db.getProjectActions(id)
     .then(actions => {
-      res.status(200).json({
-        success: true,
-        actions 
-      });
+      
+      if(actions.length === 0) {
+        res.status(200).json({
+          success: true,
+          message: "This project has no actions."
+        })
+      } else {
+        res.status(200).json({
+          success: true,
+          actions 
+        });
+      }
     })
     .catch(err => {
       res.status(500).json({
@@ -114,7 +122,7 @@ router.delete('/:id', validateProjId, (req, res) => { //delete existing project
 function validateProjId(req, res, next) { //project must have valid existing id
 
   const { id } = req.params; 
-  
+
   db.get(id)
     .then(project => {
       if(project) {
