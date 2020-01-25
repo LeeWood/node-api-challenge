@@ -70,12 +70,26 @@ router.put('/:id', validateProjId, validateProjShort, (req, res) => { //update e
 });
 
 //DELETE REQUESTS
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateProjId, (req, res) => { //delete existing project
 
   const id = req.params.id;
 
- 
-})
+  db.remove(id)
+    .then(proj => {
+      res.status(200).json({
+        success: true,
+        message: "Project was successfully deleted",
+        proj
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        success: false,
+        message: "There was a problem deleting project.",
+        error: err
+      });
+    });
+});
 
 //CUSTOM MIDDLEWARE
 function validateProjId(req, res, next) { //project must have valid existing id
