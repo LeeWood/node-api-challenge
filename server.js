@@ -8,8 +8,8 @@ const cors = require('cors');
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
-//server.use('/projects', projectsRouter);
-//server.use('/projects/:id/actions', actionsRouter); //!possibly alter this endpoint later.
+server.use('/projects', projectsRouter);
+server.use('/projects/:id/actions', actionsRouter); //!possibly alter this endpoint later.
 
 server.get('/', (req, res) => {
   res.send(
