@@ -47,7 +47,8 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 - [x] What can the API return to help clients know if a request was successful?
 
 - [x] How can we partition our application into sub-applications?
-*__study questions answered in self-study.md file__*
+
+- *__study questions answered in self-study.md file__*
 
 ## Minimum Viable Product
 
