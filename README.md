@@ -83,6 +83,22 @@ The description of the structure and extra information about each _resource_ sto
 | notes       | string    | no size limit, required. Used to record additional notes or requirements to complete the action. |
 | completed   | boolean   | used to indicate if the action has been completed, not required                                  |
 
+#### Endpoints
+
+| request  | description                               | endpoint                 |
+|----------|-------------------------------------------|--------------------------|
+| GET      | all projects                              | /projects                |                         
+| GET      | specific project                          | /projects/:id            |                         
+| GET      | specific project activites                | /projects/:id/activities |                         
+| POST     | create new project                        | /projects                |
+| PUT      | edit existing project                     | /projects/:id            |   
+| DELETE   | delete existing project                   | /projects/:id            |        
+| GET      | ALL actions                               | /actions                 |
+| GET      | specific action                           | /actions/:id             |
+| POST     | create new action for existing project    | /actions/:proj_id        |
+| PUT      | edit existing action                      | /actions/:id             |
+| DELETE   | delete existing action                    | /actions/:id             |
+
 ### Database Persistence Helpers
 
 The `/data/helpers` folder includes files you can use to manage the persistence of _project_ and _action_ data. These files are `projectModel.js` and `actionModel.js`. Both files publish the following api, which you can use to store, modify and retrieve each resource:
