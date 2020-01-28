@@ -183,7 +183,7 @@ function characterCount(req, res, next) { //character count for action descripti
   
   const description = req.body.description;
   
-  if(description.length > 128) {
+  if(description && description.length > 128) {
     res.status(400).json({
       success: false,
       message: "Please limit descriptions to 128 characters."
